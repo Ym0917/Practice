@@ -1,0 +1,88 @@
+//An array contains all the integers from 0 to n, except for one number which is missing.  Write code to find the missing integer. Can you do it in O(n) time?
+
+//数组nums包含从0到n的所有整数，但其中缺了一个。请编写代码找出那个缺失的整数。你有办法在O(n)时间内完成吗？
+//
+//注意：本题相对书上原题稍作改动
+//
+//示例 1：
+//
+//输入：[3, 0, 1]
+//输出：2
+//
+//
+//示例 2：
+//
+//输入：[9, 6, 4, 2, 3, 5, 7, 0, 1]
+//输出：8
+
+//////////////////////////////////////////////////////////////////////////
+//way1:求和
+int missingNumber(int* nums, int numsSize)
+{
+	int  num= numsSize*(numsSize + 1) / 2;
+	int i = 0;
+	for (; i<numsSize; i++)
+	{
+		num = num - nums[i];
+	}
+	
+	return num;
+}
+
+//////////////////////////////////////////////////////////////////////////
+//way2:异或
+//2.1
+int missingNumber(int* nums, int numsSize)
+{
+	if (numsSize == 0) 
+		return 0;
+
+	int result = 0;
+	
+	//这个循环的结果是result = nums[0]^nums[1]^....nums[numsSize - 1]
+	for (int i = 0; i <numsSize; i++)
+	{
+		result ^= nums[i];
+	}
+	
+	//这个循环的作用是消除result中已经存在的数字
+	for (int i = 0; i <= numsSize; i++)
+	{
+		result ^= i;
+	}
+	
+	return result;
+}
+
+//////////////////////////////////////////////////////////////////////////
+//2.2
+int missingNumber(int* nums, int numsSize)
+{
+    int result=numsSize, i=0;
+ 
+    for(;i<numsSize;i++)
+    {
+        result^=i^nums[i];
+    }
+    
+return result;
+}
+
+//////////////////////////////////////////////////////////////////////////
+//way3:下标
+int missingNumber(int* nums, int numsSize)
+{
+    int sum = 0, i = 1;
+    for(; i < numsSize + 1; i++)
+    {
+        sum  +=  i - nums[i - 1] ;
+    }
+    
+    return sum;
+}
+
+//eg:
+//已知：0 1 2 4 5 6 = 18
+//(下标 + 1)：1 2 3 4 5 6 = 21
+//21 - 18 = 3
+//////////////////////////////////////////////////////////////////////////
