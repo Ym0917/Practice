@@ -1,0 +1,21 @@
+struct TreeNode* invertTree(struct TreeNode* root){
+    // 边界检查
+    if (root == NULL) {
+        return root;
+    }
+
+    // 动态分配一颗树
+    struct TreeNode* pNode = (struct TreeNode*)malloc(sizeof(struct TreeNode));
+    // 判断是否申请成功
+    if (pNode == NULL) {
+        return NULL;
+    }
+    
+    pNode->val = root->val;
+    // 右子树变左子树
+    pNode->left = invertTree(root->right);
+    // 左子树变右子树
+    pNode->right = invertTree(root->left);
+
+    return pNode;
+}
